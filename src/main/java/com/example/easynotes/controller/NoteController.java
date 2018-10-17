@@ -40,11 +40,9 @@ public class NoteController {
     @CrossOrigin(origins = "http://localhost:8081")
     @GetMapping("/randomquotes")
     public String getQuoteById(){
-        Note note;
         Long noteId = (long) (Math.random()*noteRepository.count()  + 1);
-        note = noteRepository.findById(noteId)
-                .orElseThrow(() -> new ResourceNotFoundException("Note", "id", noteId));
-        return note.getContent();
+        return noteRepository.findById(noteId)
+                .orElseThrow(() -> new ResourceNotFoundException("Note", "id", noteId)).getContent();
     }
 
     // Update a Note
@@ -58,8 +56,7 @@ public class NoteController {
         note.setTitle(noteDetails.getTitle());
         note.setContent(noteDetails.getContent());
 
-        Note updatedNote = noteRepository.save(note);
-        return updatedNote;
+        return noteRepository.save(note);
     }
 
     // Delete a Note
