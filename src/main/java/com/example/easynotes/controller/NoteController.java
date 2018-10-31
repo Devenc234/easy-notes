@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:5000")
 @RestController
 @RequestMapping("/api")
 public class NoteController {
@@ -37,12 +38,11 @@ public class NoteController {
     }
 
     // To sync with polymer getQuote app
-    @CrossOrigin(origins = "http://localhost:8081")
     @GetMapping("/randomquotes")
-    public String getQuoteById(){
+    public Note getQuoteById(){
         Long noteId = (long) (Math.random()*noteRepository.count()  + 1);
         return noteRepository.findById(noteId)
-                .orElseThrow(() -> new ResourceNotFoundException("Note", "id", noteId)).getContent();
+                .orElseThrow(() -> new ResourceNotFoundException("Note", "id", noteId));
     }
 
     // Update a Note
